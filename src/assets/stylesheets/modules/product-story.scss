@@ -1,0 +1,198 @@
+#product-story {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	min-width: 320px;
+	height: 100%;
+	z-index: 1;
+	#story-nav {
+		position: fixed;
+		left: 35px;
+		top: 30%;
+		width: 150px;
+		z-index: 10;
+		a {
+			display: block;
+			width: 100%;
+			span {
+				background: white;
+				border-radius: 50%;
+				display: inline-block;
+				margin-bottom: 2px;
+				width: 5px;
+				height: 5px;
+				overflow: hidden;
+			}
+			p {
+				color: white;
+				display: inline-block;
+				font-size: 12px;
+				margin: 8px 8px 8px 0;
+				text-decoration: none;
+				opacity: 0;
+				transition: all 0.5s;
+			}
+			&.selected p, &:hover p{
+				margin: 8px;
+				opacity: 1;
+			}
+		}
+	}
+	#page-background {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		.image-sequence {
+			background-image: url("/assets/video/jpeg_sequence/shield_home_1.jpg");
+			background-repeat: no-repeat;
+			background-position: 50% 50%;
+			background-size: cover;
+			width: 100%;
+			height: 100%;
+		}
+		video {
+			position: absolute;
+			top: 0;
+			left: 0;
+			z-index: 0;
+			width: 100%;
+			height: auto;
+			&.selected {
+				z-index: 1;
+			}
+		}
+	}
+
+	.module {
+		color: rgb(200,200,200);
+		display: block;
+		width: 100%;
+		//height: 100%;
+		position: absolute;
+		top: 0;
+		left: 0;
+		text-align: center;
+		z-index: 5;
+		h1 {
+			margin: 0;
+		}
+	}
+
+	@mixin story-content-show {
+		&.show {
+			height: 180px;
+			opacity: 1;
+			transition: all 1s;
+			transition-delay: 0;
+			transform: translate(0, 0);
+			p {
+				opacity: 1;
+				transform: translate(0,0);
+				transition-delay: 0.5s;
+			}
+			span {
+				opacity: 1;
+				transition-delay: 1s;
+				//transform: translate(0,0);
+			}
+		}
+	}
+
+	.content-text {
+		width: 400px;
+		height: 0;
+		text-align: left;
+		position: fixed;
+		opacity: 0;
+		overflow: hidden;
+		transition: all 1s;
+		transition-delay: 0.5s;
+		p {
+			opacity: 0;
+			transform: translate(0, -15px);
+			transition: all 1s;
+			transition-delay: 0.3s;
+		}
+		span {
+			opacity: 0;
+			//transform: translate(0, -15px);
+			transition: all 1s;
+			transition-delay: 0;
+		}
+	}
+
+	#story-ultimate {
+		.content-text {
+			top: 69%;
+			left: 7%;
+			transform: translate(0, 100px);
+			@include story-content-show;
+		}
+	}
+
+	#story-portable {
+		.content-text {
+			top: 69%;
+			left: 7%;
+			transform: translate(0, 100px);
+			@include story-content-show;
+		}
+	}
+
+	#story-loaded {
+		.content-text {
+			top: 36%;
+			left: 32%;
+			transform: translate(0, 100px);
+			@include story-content-show;
+		}
+	}
+
+	#story-stage {
+		.content-text {
+			top: 69%;
+			left: 7%;
+			transform: translate(0, 100px);
+			@include story-content-show;
+		}
+	}
+
+	#story-conquer {
+		.content-text {
+			top: 15%;
+			left: 19%;
+			transform: translate(0, 100px);
+			@include story-content-show;
+		}
+	}
+
+	#story-unleashed {
+		.content-text {
+			top: 69%;
+			left: 7%;
+			transform: translate(0, 100px);
+			@include story-content-show;
+		}
+	}
+
+	#story-shows {
+		.content-text {
+			top: 71%;
+			left: 35%;
+			transform: translate(0, 100px);
+			@include story-content-show;
+		}		
+	}
+
+	#story-purchase {
+		.content-text {
+			top: 60%;
+			left: 75%;
+			transform: translate(0, 100px);
+			@include story-content-show;
+		}		
+	}
+}

@@ -1,0 +1,19 @@
+@mixin background-icon-image($imagePath){
+	background-image: image-url($imagePath);
+}
+
+@mixin background-icon($imagePath){
+	background-image: image-url($imagePath);
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+	background-size: 100% 100%;
+	display: block;
+	overflow: hidden;
+	text-indent: -999px;
+}
+
+.logo{
+	@include background-icon("logo.svg");
+	width: 100px;
+	height: 20px;
+}
