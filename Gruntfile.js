@@ -82,6 +82,7 @@ module.exports = function(grunt) {
 		assemble: {
 			options: {
 				layout: "<%= config.src %>/layouts/default.hbs",
+				partials: '<%= config.src %>/partials/**/*.hbs',
 				flatten: true
 			},
 			pages: {
@@ -123,7 +124,12 @@ module.exports = function(grunt) {
 
 		concat: {
 			app: {
-				src: ['<%= config.src %>/assets/javascripts/javascripts/**/*.js'],
+				src: [
+				'<%= config.src %>/assets/javascripts/vendor/*.js', 
+				'<%= config.src %>/assets/javascripts/app/**/*.js',
+				'!<%= config.src %>/assets/javascripts/app/main.js',
+				'<%= config.src %>/assets/javascripts/app/main.js'
+				],
 				dest: '<%= config.dist %>/assets/javascripts/all.js'
 			},
 		},
@@ -137,6 +143,37 @@ module.exports = function(grunt) {
 				src : ['<%= config.dist %>/assets/javascripts/all.js'],
 				dest : '<%= config.dist %>/assets/javascripts/all.js'
 			}
+		},
+
+		copy: {
+			files: {
+				expand: true,
+				flatten: true,
+				src: ['<%= config.src %>/assets/video/*'],
+				dest: '<%= config.dist %>/assets/video/'
+			}
+		},
+
+		imagemin: {
+			dist: {
+				files: [{
+					expand: true,
+					cwd: '<%= config.src %>/assets/images',
+					src: '{,*/}*.{gif,jpeg,jpg,png}',
+					dest: '<%= config.dist %>/assets/images'
+				}]
+			}
+		},
+
+		svgmin: {
+			dist: {
+				files: [{
+					expand: true,
+					cwd: '<%= config.src %>/assets/images',
+					src: '{,*/}*.svg',
+					dest: '<%= config.dist %>/assets/images'
+				}]
+			}
 		}
 		
 	});
@@ -149,6 +186,18 @@ module.exports = function(grunt) {
 		'watch'
 	]);
 
+	grunt.registerTask('test', [
+		'clean:dist', 
+		'assemble',
+		'sass',
+		'autoprefixer',
+		'cssmin',
+		'concat',
+		'copy',
+		'imagemin',
+		'svgmin'
+	]);
+
 	grunt.registerTask('build', [
 		'clean:dist', 
 		'assemble',
@@ -156,7 +205,10 @@ module.exports = function(grunt) {
 		'autoprefixer',
 		'cssmin',
 		'concat',
-		'uglify'
+		'uglify',
+		'copy',
+		'imagemin',
+		'svgmin'
 	]);
 
 	grunt.registerTask('default', [
