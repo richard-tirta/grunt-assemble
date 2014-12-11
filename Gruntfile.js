@@ -35,6 +35,7 @@ module.exports = function(grunt) {
 
 			assembleTask[templateName + "_" + locale] = {
 				options: {
+					// YAML filename has to be data otherwise assemble don't like it.
 					data: 'src/locales/' + locale + '/data.yaml'
 				},
 				files: [{
@@ -46,20 +47,6 @@ module.exports = function(grunt) {
 			}
 		});
 	});
-
-
-	// assemble: {
-		// 	options: {
-		// 		layout: "<%= config.src %>/layouts/default.hbs",
-		// 		partials: '<%= config.src %>/partials/**/*.hbs',
-		// 		flatten: true
-		// 	},
-		// 	pages: {
-		// 		files: {
-		// 			'<%= config.dist %>/': ['<%= config.src %>/pages/*.hbs']
-		// 		}
-		// 	}
-		// },
 
 	// Project configuration.
 	grunt.initConfig({
@@ -133,19 +120,6 @@ module.exports = function(grunt) {
 				}
 			}
 		},
-	
-		// assemble: {
-		// 	options: {
-		// 		layout: "<%= config.src %>/layouts/default.hbs",
-		// 		partials: '<%= config.src %>/partials/**/*.hbs',
-		// 		flatten: true
-		// 	},
-		// 	pages: {
-		// 		files: {
-		// 			'<%= config.dist %>/': ['<%= config.src %>/pages/*.hbs']
-		// 		}
-		// 	}
-		// },
 
 		assemble: assembleTask,
 
