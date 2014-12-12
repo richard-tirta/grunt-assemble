@@ -1,4 +1,8 @@
 {
+  "name": "grunt-assemble-proto",
+  "scripts": {
+    "start": "node index.js"
+  },
   "dependencies": {
     "assemble": "~0.4.0",
     "grunt": "~0.4.1",
