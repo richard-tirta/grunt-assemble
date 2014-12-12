@@ -3,8 +3,50 @@
 
 module.exports = function(grunt) {
 
+	var pageDir = ['src/pages/']
+		, localeDir = ['src/locales/']
+		, locales = ['en', 'mx', 'de', 'id', 'jp', 'zh']
+		, pageList = grunt.file.expand(pageDir + '**/*.hbs')
+		, distDir = 'dist/'
+		, assembleTask = {
+			options: {
+				helpers: 'src/helpers/helper.js',
+				layout: "src/layouts/default.hbs",
+				partials: 'src/partials/**/*.hbs',
+				flatten: true
+			}
+		};
+
 	require('time-grunt')(grunt);
 	require('load-grunt-tasks')(grunt);
+
+	function getFileName (path) {
+		var file = path.match(/\/([^/]*)$/)[1];
+		var name = file.replace(/\.[^/.]+$/, "");
+
+		return name;
+	}
+
+	//assemble task
+	pageList.forEach(function (template) {
+		var templateName = getFileName(template);
+		locales.forEach(function (locale) {
+			grunt.log.writeln('locales/' + locale + '/data.yaml');
+
+			assembleTask[templateName + "_" + locale] = {
+				options: {
+					// YAML filename has to be data otherwise assemble don't like it.
+					data: 'src/locales/' + locale + '/data.yaml'
+				},
+				files: [{
+					expand: true,
+					cwd: 'src/pages/',
+					src: templateName + '.hbs',
+					dest: 'dist/' + locale + '/'
+				}]
+			}
+		});
+	});
 
 	// Project configuration.
 	grunt.initConfig({
@@ -78,19 +120,8 @@ module.exports = function(grunt) {
 				}
 			}
 		},
-	
-		assemble: {
-			options: {
-				layout: "<%= config.src %>/layouts/default.hbs",
-				partials: '<%= config.src %>/partials/**/*.hbs',
-				flatten: true
-			},
-			pages: {
-				files: {
-					'<%= config.dist %>/': ['<%= config.src %>/pages/*.hbs']
-				}
-			}
-		},
+
+		assemble: assembleTask,
 
 		sass: {
 			options: {
