@@ -74,7 +74,12 @@ module.exports = function(grunt) {
 
 		watch: {
 			assemble: {
-				files: ['<%= config.src %>/{layouts,pages}/{,*/}*.{md,hbs,yml}'],
+				files: [
+					'<%= config.src %>/layouts/*.{md,hbs,yml}',
+					'<%= config.src %>/pages/*.{md,hbs,yml}',
+					'<%= config.src %>/locales/**/*.{md,hbs,yml}',
+					'<%= config.src %>/partials/**/*.{md,hbs,yml}'
+				],
 				tasks: ['assemble']
 			},
 			js: {
@@ -90,6 +95,14 @@ module.exports = function(grunt) {
 			sass: {
 				files: ['<%= config.src %>/assets/stylesheets/*.scss'],
 				tasks: ['sass']
+			},
+			css: {
+				files: ['<%= config.dist %>/assets/stylesheets/all.css'],
+				tasks: []
+			},
+			images: {
+				files: ['<%= config.src %>/assets/images/*'],
+				task: ['imagemin']
 			},
 			livereload: {
 				options: {
@@ -125,7 +138,8 @@ module.exports = function(grunt) {
 
 		sass: {
 			options: {
-				sourceMap: true
+				sourceMap: true,
+				imagePath: './../images/'
 			},
 			dist: {
 				files: {
