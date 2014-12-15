@@ -191,11 +191,22 @@ module.exports = function(grunt) {
 		},
 
 		copy: {
-			files: {
-				expand: true,
-				flatten: true,
-				src: ['<%= config.src %>/assets/video/*'],
-				dest: '<%= config.dist %>/assets/video/'
+			main: {
+				files: [
+					{
+						expand: true,
+						flatten: true,
+						filter: 'isFile',
+						src: ['<%= config.src %>/assets/video/*'],
+						dest: '<%= config.dist %>/assets/video/'
+					},{
+						expand: true,
+						flatten: true,
+						filter: 'isFile',
+						src: ['<%= config.src %>/assets/fonts/*'],
+						dest: '<%= config.dist %>/assets/fonts/'
+					}
+				]
 			}
 		},
 
