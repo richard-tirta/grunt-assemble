@@ -30,3 +30,12 @@ $ grunt server
 ```
 $ grunt
 ```
+
+### Localization (i18n)
+Assemble allow to do localization and provides the copy in each language YAML file.
+
+##### To edit list of supported languages
+
+Go to Gruntfile.js and edit array variable ```locales = ['en']```.
+
+For each language, add a folder with the exact language variable name under ```src/locales``` and inside the directory put exactly ```data.yml``` to repesent the language.

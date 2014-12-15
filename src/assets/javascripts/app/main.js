@@ -1,6 +1,2 @@
-
-
-$(document).ready(function(){
-	CONTROLLER.MAIN.init();
-});
+console.log("Halo!");
 

@@ -5,7 +5,7 @@ module.exports = function(grunt) {
 
 	var pageDir = ['src/pages/']
 		, localeDir = ['src/locales/']
-		, locales = ['en', 'mx', 'de', 'id', 'jp', 'zh']
+		, locales = ['en']
 		, pageList = grunt.file.expand(pageDir + '**/*.hbs')
 		, distDir = 'dist/'
 		, assembleTask = {
