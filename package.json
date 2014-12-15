@@ -1,8 +1,10 @@
 {
-  "name": "grunt-assemble",
+  "name": "grunt-assemble-proto",
+  "scripts": {
+    "start": "node index.js"
+  },
   "dependencies": {
     "assemble": "~0.4.0",
-    "express": "^4.10.6",
     "grunt": "~0.4.1",
     "grunt-contrib-clean": "^0.6.0"
   },
@@ -19,10 +21,5 @@
     "grunt-svgmin": "^2.0.0",
     "load-grunt-tasks": "^1.0.0",
     "time-grunt": "^1.0.0"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
-    "postinstall": "bash ./post_install.sh"
   }
 }
