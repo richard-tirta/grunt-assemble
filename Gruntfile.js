@@ -205,6 +205,9 @@ module.exports = function(grunt) {
 						filter: 'isFile',
 						src: ['<%= config.src %>/assets/fonts/*'],
 						dest: '<%= config.dist %>/assets/fonts/'
+					}, {
+						src: ['<%= config.src %>/index.html'],
+						dest: '<%= config.dist %>/index.html'
 					}
 				]
 			}
