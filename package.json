@@ -1,5 +1,5 @@
 {
-  "name": "grunt-assemble-proto",
+  "name": "grunt-assemble",
   "scripts": {
     "start": "node index.js"
   },
