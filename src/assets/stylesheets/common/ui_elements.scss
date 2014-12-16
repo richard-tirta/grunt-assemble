@@ -1,0 +1,30 @@
+//========= UI ELEMENTS==========//
+
+
+@mixin background-icon($imagePath){
+	background-image: image-url($imagePath);
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+	background-size: 100% 100%;
+	display: block;
+	overflow: hidden;
+	text-indent: -9999px;
+}
+
+
+@mixin background($imagePath){
+	background-image: image-url($imagePath);
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+	display: block;
+	overflow: hidden;
+}
+
+// Snippet for background mixin use
+// Image path is already set in Gruntfile.js so you just need to put image name.
+
+// .your-image {
+// 	@include background-icon('your-image.jpg');
+// 	width: 200px;
+// 	height: 200px;
+// }

@@ -1,0 +1,32 @@
+//========= TYPOGRAPHY ==========//
+
+$base: 18; // Default
+
+@function em($pixels, $context: $base) {
+  @return #{$pixels/$context}em
+}
+
+
+html{
+	-webkit-font-smoothing: antialiased;
+	-webkit-text-size-adjust: none;
+	text-rendering: optimizelegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-font-smoothing: antialiased;
+	-ms-font-smoothing: antialiased;
+	-o-font-smoothing: antialiased;
+	font-smoothing: antialiased;
+}
+
+// snippet for @font-face
+
+// @font-face {
+// 	font-family: 'your-font';
+// 	src: url('../fonts/YOUR_FONT.eot');
+// 	src: url('../fonts/YOUR_FONT.eot?#iefix') format('embedded-opentype'), 
+// 		url('../fonts/YOUR_FONT.ttf') format('truetype'), 
+// 		url('../fonts/YOUR_FONT.woff') format('woff'), 
+// 		url('../fonts/YOUR_FONT.svg#YOUR_FONT') format('svg');
+// 	font-weight: normal;
+// 	font-style: normal;
+// }

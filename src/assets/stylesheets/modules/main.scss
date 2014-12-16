@@ -1,0 +1,40 @@
+//========= Media Query==========//
+
+
+@mixin medium {
+   @media (max-width: 1200px) { @content; }
+}
+
+@mixin small {
+   @media (max-width: 900px) { @content; }
+}
+
+@mixin xsmall {
+   @media (max-width: 650px) { @content; }
+}
+
+
+//========= BASE ==========//
+
+@mixin clearfix {
+	&:after {
+		content: "";
+		clear: both;
+		display: block;
+	}
+}
+
+@mixin margin-center {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+html, body{
+	background: white;
+	color: black;
+	font-family: Helvetica, Arial, sans-serif;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	min-width: 320px;
+}
