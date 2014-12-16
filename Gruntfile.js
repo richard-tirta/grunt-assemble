@@ -267,7 +267,7 @@ module.exports = function(grunt) {
 		'svgmin'
 	]);
 
-	grunt.registerTask('default', [
+	grunt.registerTask('heroku', [
 		'build', 
 	]);
 
