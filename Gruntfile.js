@@ -11,7 +11,8 @@ module.exports = function(grunt) {
 		, assembleTask = {
 			options: {
 				helpers: 'src/helpers/helper.js',
-				layout: "src/layouts/default.hbs",
+				layoutdir: 'src/layouts',
+				layout: "default.hbs",
 				partials: 'src/partials/**/*.hbs',
 				flatten: true
 			}
@@ -42,7 +43,10 @@ module.exports = function(grunt) {
 					expand: true,
 					cwd: 'src/pages/',
 					src: templateName + '.hbs',
-					dest: 'dist/' + locale + '/'
+					//if there's locales
+					// dest: 'dist/' + locale + '/'
+					// if no locales
+					dest: 'dist/'
 				}]
 			}
 		});
@@ -80,20 +84,24 @@ module.exports = function(grunt) {
 					'<%= config.src %>/locales/**/*.{md,hbs,yml}',
 					'<%= config.src %>/partials/**/*.{md,hbs,yml}'
 				],
-				tasks: ['assemble']
+				tasks: ['assemble', 'usemin']
 			},
 			js: {
-				files: ['<%= config.src %>/assets/javascripts/javascripts/**/*.js'],
-				tasks: ['concat']
+				files: [
+					'<%= config.src %>/assets/javascripts/**/*.js',
+					'<%= config.src %>/layouts/*.{md,hbs,yml}'
+				],
+				tasks: ['useminPrepare', 'concat', 'copy:test']
 				// options: {
 				// 	livereload: true
 				// }
 			},
 			gruntfile: {
-				files: ['Gruntfile.js']
+				files: ['Gruntfile.js'],
+				tasks: ['test']
 			},
 			sass: {
-				files: ['<%= config.src %>/assets/stylesheets/*.scss'],
+				files: ['<%= config.src %>/assets/stylesheets/**/*.scss'],
 				tasks: ['sass']
 			},
 			css: {
@@ -136,15 +144,32 @@ module.exports = function(grunt) {
 
 		assemble: assembleTask,
 
+		// concat: {
+		// 	app: {
+		// 		src: [
+		// 		'<%= config.src %>/assets/javascripts/vendor/*.js',
+		// 		'<%= config.src %>/assets/javascripts/app/**/*.js',
+		// 		'!<%= config.src %>/assets/javascripts/app/main.js',
+		// 		'<%= config.src %>/assets/javascripts/app/main.js'
+		// 		],
+		// 		dest: '<%= config.dist %>/assets/javascripts/all.js'
+		// 	},
+		// },
+
 		sass: {
 			options: {
 				sourceMap: true,
-				imagePath: './../images/'
+				imagePath: './../images/',
+				outputStyle: 'compressed'
+
 			},
-			dist: {
-				files: {
-					'<%= config.dist %>/assets/stylesheets/all.css': ['<%= config.src %>/assets/stylesheets/*.scss']
-				}
+			index: {
+				src: [
+					'<%= config.src %>/assets/stylesheets/all.scss',
+						'<%= config.src %>/assets/stylesheets/common/*.scss',
+						'<%= config.src %>/assets/stylesheets/index/*.scss'
+				],
+				dest: '<%= config.dist %>/assets/stylesheets/all.css'
 			}
 		},
 
@@ -152,42 +177,56 @@ module.exports = function(grunt) {
 			options: {
 				browsers: ['> 1%', 'last 3 versions', 'Firefox ESR', 'Opera 12.1']
 			},
-			dist: {
-				files: {
-					'<%= config.dist %>/assets/stylesheets/all.css': ['<%= config.dist %>/assets/stylesheets/*.css']
-				}
-			}
-		},
-
-		cssmin: {
-			dist: {
+			index: {
 				files: {
 					'<%= config.dist %>/assets/stylesheets/all.css': ['<%= config.dist %>/assets/stylesheets/all.css']
 				}
 			}
 		},
 
-		concat: {
-			app: {
-				src: [
-				'<%= config.src %>/assets/javascripts/vendor/*.js', 
-				'<%= config.src %>/assets/javascripts/app/**/*.js',
-				'!<%= config.src %>/assets/javascripts/app/main.js',
-				'<%= config.src %>/assets/javascripts/app/main.js'
-				],
-				dest: '<%= config.dist %>/assets/javascripts/all.js'
-			},
+		cssmin: {
+			index: {
+				files: {
+					'<%= config.dist %>/assets/stylesheets/all.css': ['<%= config.dist %>/assets/stylesheets/all.css']
+				}
+			}
 		},
+
+		useminPrepare: {
+			index: {
+				dest: '<%= config.dist %>/index.html',
+				src: '<%= config.src %>/layouts/default.hbs'
+			}
+		},
+
+		usemin: {
+			index: {
+				dest: '<%= config.dist %>/index.html',
+				src: '<%= config.dist %>/index.html'
+			}
+		},
+
+		// concat: {
+		// 	registration: {
+		// 		src: [
+		// 		'<%= config.src %>/assets/javascripts/vendor/jquery.js'
+		// 		// '<%= config.src %>/assets/javascripts/app/**/*.js',
+		// 		// '!<%= config.src %>/assets/javascripts/app/main.js',
+		// 		// '<%= config.src %>/assets/javascripts/app/main.js'
+		// 		],
+		// 		dest: '<%= config.dist %>/assets/javascripts/registration.js'
+		// 	},
+		// },
 
 		uglify: {
 			options: {
 				sourceMapRoot: '<%= config.dist %>/assets/javascripts/all.js',
 				sourceMap: '<%= config.dist %>/assets/javascripts/all.min.js.map'
-			},
-			target : {
-				src : ['<%= config.dist %>/assets/javascripts/all.js'],
-				dest : '<%= config.dist %>/assets/javascripts/all.js'
 			}
+			// target : {
+			// 	src : ['<%= config.dist %>/assets/javascripts/all.js'],
+			// 	dest : '<%= config.dist %>/assets/javascripts/all.js'
+			// }
 		},
 
 		copy: {
@@ -206,8 +245,28 @@ module.exports = function(grunt) {
 						src: ['<%= config.src %>/assets/fonts/*'],
 						dest: '<%= config.dist %>/assets/fonts/'
 					}, {
-						src: ['<%= config.src %>/index.html'],
-						dest: '<%= config.dist %>/index.html'
+						expand: true,
+						flatten: true,
+						filter: 'isFile',
+						src: ['<%= config.src %>/assets/images/favicon.ico'],
+						dest: '<%= config.dist %>'
+					}
+					// , {
+					// 	src: ['<%= config.src %>/index.html'],
+					// 	dest: '<%= config.dist %>/index.html'
+					// }
+				]
+			},
+			test: {
+				files: [
+					{
+						expand: true,
+						flatten: true,
+						filter: 'isFile',
+						src: [
+							'<%= config.tmp %>/concat/assets/javascripts/all.js'
+						],
+						dest: '<%= config.dist %>/assets/javascripts/'
 					}
 				]
 			}
@@ -218,7 +277,7 @@ module.exports = function(grunt) {
 				files: [{
 					expand: true,
 					cwd: '<%= config.src %>/assets/images',
-					src: '{,*/}*.{gif,jpeg,jpg,png}',
+					src: ['**/*.{png,jpg,gif}'],
 					dest: '<%= config.dist %>/assets/images'
 				}]
 			}
@@ -234,48 +293,51 @@ module.exports = function(grunt) {
 				}]
 			}
 		}
-		
+
 	});
-	
+
 	grunt.loadNpmTasks('assemble');
 
 	grunt.registerTask('server', [
-		'build',
+		'test',
 		'connect:livereload',
 		'watch'
 	]);
 
 	grunt.registerTask('test', [
-		'clean:dist', 
+		'clean:dist',
 		'assemble',
 		'sass',
 		'autoprefixer',
-		'cssmin',
+		'useminPrepare',
 		'concat',
+		'usemin',
 		'copy',
 		'imagemin',
 		'svgmin'
 	]);
 
 	grunt.registerTask('build', [
-		'clean:dist', 
+		'clean:dist',
 		'assemble',
 		'sass',
 		'autoprefixer',
 		'cssmin',
+		'useminPrepare',
 		'concat',
 		'uglify',
-		'copy',
+		'usemin',
+		'copy:main',
 		'imagemin',
 		'svgmin'
 	]);
 
 	grunt.registerTask('heroku', [
-		'build', 
+		'build',
 	]);
 
 	grunt.registerTask('default', [
-		'build', 
+		'build',
 	]);
-	
+
 };
