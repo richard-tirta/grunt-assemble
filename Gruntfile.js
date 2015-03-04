@@ -69,7 +69,8 @@ module.exports = function(grunt) {
 					src: [
 						'.tmp',
 						'<%= config.dist %>/*',
-						'!<%= config.dist %>/.git*'
+						'!<%= config.dist %>/.git*',
+						'public',
 					]
 				}]
 			},
@@ -269,7 +270,17 @@ module.exports = function(grunt) {
 						dest: '<%= config.dist %>/assets/javascripts/'
 					}
 				]
-			}
+			},
+			build: {
+				files: [
+					{
+						expand: true,
+						cwd: '<%= config.dist %>',
+						src: '**/*',
+						dest: 'public/'
+					}
+				]
+			},
 		},
 
 		imagemin: {
@@ -312,7 +323,8 @@ module.exports = function(grunt) {
 		'useminPrepare',
 		'concat',
 		'usemin',
-		'copy',
+		'copy:main',
+		'copy:test',
 		'imagemin',
 		'svgmin'
 	]);
@@ -329,15 +341,16 @@ module.exports = function(grunt) {
 		'usemin',
 		'copy:main',
 		'imagemin',
-		'svgmin'
+		'svgmin',
+		'copy:build'
 	]);
 
 	grunt.registerTask('heroku', [
-		'build',
+		'build'
 	]);
 
 	grunt.registerTask('default', [
-		'build',
+		'build'
 	]);
 
 };
